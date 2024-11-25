@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.destinos:nth-child(odd) {
+        @apply -rotate-2;
+    }
+
+    .destinos:nth-child(even) {
+        @apply rotate-2;
+    }
+
+#contenedor01{
+ background-image: url('/header-azul.png');
+ background-size: contain;
+ background-repeat: no-repeat;
+        
+    }
