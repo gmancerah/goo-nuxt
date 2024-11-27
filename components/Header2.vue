@@ -15,7 +15,7 @@
         </button>
       </div>
       <PopoverGroup class="hidden lg:flex lg:gap-x-12">
-        <Popover class="relative">
+ <!--        <Popover class="relative">
           <PopoverButton class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
             Destinos
             <ChevronDownIcon class="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
@@ -46,9 +46,9 @@
               </div>
             </PopoverPanel>
           </transition>
-        </Popover>
+        </Popover> -->
 
-        <a href="/capacitaciones" class="text-sm font-semibold leading-6 text-gray-900">Capacitación</a>
+        <a href="/cursos" class="text-sm font-semibold leading-6 text-gray-900">Cursos</a>
         <a href="/videos" class="text-sm font-semibold leading-6 text-gray-900">Videos</a>
         <a href="/envivo" class="text-sm font-semibold leading-6 text-gray-900">En vivo</a>
       </PopoverGroup>

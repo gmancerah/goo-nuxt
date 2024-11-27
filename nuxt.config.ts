@@ -2,9 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  plugins: [
-  '/plugins/algolia.js'
-],
+  build: {
+    transpile: ['vue-instantsearch', 'algoliasearch'],
+  },
+  css: ['~/assets/css/tailwind.css'],
+  devtools: { enabled: true },
   head: {
   link: [
     {
@@ -17,7 +19,7 @@ export default defineNuxtConfig({
     },
   ],
 },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/algolia'],
    css: [
          '~/assets/css/tailwind.css', // Asegúrate de que la ruta sea correcta
        ],

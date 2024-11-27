@@ -23,7 +23,7 @@ const pending = ref(true);
 const error = ref(null);
 
 // Debugging log
-console.log('API URL:', props.apiUrl);
+// console.log('API URL:', props.apiUrl);
 
 const fetchDestinations = async () => {
 try {
@@ -31,7 +31,7 @@ try {
   error.value = null;
 
   const response = await fetch(props.apiUrl);
-  console.log('Response status:', response.status);
+  // console.log('Response status:', response.status);
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);

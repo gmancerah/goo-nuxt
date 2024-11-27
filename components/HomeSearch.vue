@@ -7,12 +7,13 @@
           
           <h1 class="mt-20 text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:mt-10 sm:text-5xl">Descubre el mundo con nosotros</h1>
           <br>
-          <input type='text' placeholder='Destino, Ciudad o País'
+          <SearchInput :customClass="componentClass" />
+         <!--  <input type='text' placeholder='Destino, Ciudad o País'
           class="px-4 py-2.5 text-lg rounded-md bg-white border border-gray-400 w-full outline-[#79CAB9]" />
           <div class="mt-6 flex items-center gap-x-6 justify-end mb-1">
             <a href="/results" class="rounded-md text-xl bg-[#79CAB9] px-3.5 py-2.5  font-semibold text-white shadow-sm hover:bg-[#79CAB9] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#79CAB9]">Buscar</a>
             
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="relative lg:col-span-5 lg:-mr-8 xl:absolute xl:inset-0 xl:left-1/2 xl:mr-0 lg:inset-x-0 lg:bottom-0 ">
@@ -25,3 +26,7 @@
     </div>
   </div>
 </template>
+<script setup>
+import { ref } from 'vue';
+const componentClass = ref('px-4 py-2.5 text-lg rounded-md bg-white border border-gray-400 w-full outline-[#79CAB9] mb-20');
+</script>

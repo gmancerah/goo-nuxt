@@ -1,6 +1,62 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+const route = useRoute();
+const { result, search } = useAlgoliaSearch('goouniversity');
+const pending = ref(true);
+const error = ref(null);
+
+const handleSearch = async (searchQuery: string) => {
+await fetchData(searchQuery);
+};
+
+const fetchData = async (query: string) => {
+try {
+  pending.value = true;
+  error.value = null;
+
+  await search({ query });
+
+  // Store data in local storage
+  localStorage.setItem('searchResult', JSON.stringify(result.value));
+} catch (e) {
+  error.value = e;
+} finally {
+  pending.value = false;
+}
+};
+
+// Load data from local storage if available
+const loadFromLocalStorage = () => {
+const storedData = localStorage.getItem('searchResult');
+if (storedData) {
+  result.value = JSON.parse(storedData);
+}
+};
+
+// Watch for route query changes
+watch(() => route.query.search, (newSearch) => {
+if (newSearch) {
+  fetchData(newSearch as string);
+}
+}, { immediate: true });
+
+onMounted(() => {
+loadFromLocalStorage();
+
+// Get initial search query from URL
+const searchQuery = route.query.search as string || 'reno';
+if (searchQuery) {
+  fetchData(searchQuery);
+}
+});
+</script>
+
+
 <template>
   <!-- Container -->
   <div class="flex flex-col-reverse lg:flex-row gap-6 max-w-7xl mx-auto mt-8">
+    
+
     <!-- Sidebar -->
     <aside class="w-full lg:w-1/4 hidden lg:block">
       <!-- Filter Section -->
@@ -53,26 +109,46 @@
       </div>
  -->
       <!-- Property Listings -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div v-if="pending">Loading...</div>
+        <div v-if="error">{{ error.message }}</div>
+        <div v-if="!pending && !error">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" v-if="result.hits && result.hits.length > 0">
+        
+
         <!-- Property Card -->
-        <div v-for="property in properties" :key="property.id" class="property-card bg-white border rounded-lg p-4 shadow-sm">
+        
+        <div v-for="item in result.hits" :key="item.id" class="property-card bg-white border rounded-lg p-4 shadow-sm">
           <div class="relative">
-            <img :src="property.image" alt="House image" class="w-full rounded-lg mb-4">
-            <span :class="['absolute top-2 left-2 text-white px-2 py-1 rounded-lg text-xs', property.bgColor]">
-              {{ property.size }} 
+             <img :src="item.image || 'https://placehold.co/466x262'" alt="Image for {{ item.title }}" />
+            <span class="absolute top-2 left-2 text-white px-2 py-1 rounded-lg text-xs">
+              {{ item.content_type }} 
             </span>
           </div>
-          <h2 class="text-lg font-semibold min-h-[4rem]">{{ property.title }}</h2>
-          <p class="text-gray-500 text-sm min-h-[3rem]">{{ property.description }} </p>
-          <div class="flex items-center mt-4">
-            <img :src="property.agentPhoto" alt="Agent photo" class="w-8 h-8 rounded-full mr-2">
-            <div class="text-sm">
-              <p class="font-medium">{{ property.agentName }}</p>
-
-            </div>
-            <!-- <button class="ml-auto px-4 py-1 text-[#76c6af] border border-[#76c6af] rounded-lg">Ver</button> -->
-          </div>
+          <h2 class="text-lg font-semibold min-h-[4rem] line-clamp-2">{{ item.title }}</h2>
+          <p class="text-gray-500 text-sm min-h-[3rem] line-clamp-3">{{ item.summary }} </p>
+          
         </div>
+        </div>
+        <div v-else>
+        <div class="bg-white">
+    <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+        <h2 class="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">Aún no tenemos algo relacionado con tu busqueda</h2>
+        <p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-300">No te preocupes cada semana agregamos nuevo contenido, puedes intentar con otra busqueda.</p>
+
+        <svg viewBox="0 0 1024 1024" class="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]" aria-hidden="true">
+          <circle cx="512" cy="512" r="512" fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)" fill-opacity="0.7" />
+          <defs>
+            <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+              <stop stop-color="#7775D6" />
+              <stop offset="1" stop-color="#E935C1" />
+            </radialGradient>
+          </defs>
+        </svg>
+      </div>
+    </div>
+  </div>
+      </div>
       </div>
     </div>
 
@@ -80,205 +156,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
 
-// Sample data for properties
-const properties = ref([
-  {
-    id: 1,
-    image: '/viaje-0.png',
-    size: "Curso",
-    title: 'Cruceros: Navegando hacia el Éxito',
-    description: 'Maximiza ventas con experiencias marítimas.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'María López',
-    agentContact: '(555) 555-4321',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 2,
-    image: '/viaje-1.png',
-    size: "Curso",
-    title: 'Asia: Descubriendo el Mercado Asiático',
-    description: 'Estrategias para atraer viajeros a Asia.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Carlos García',
-    agentContact: '(555) 555-4322',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 3,
-    image: '/viaje-2.png',
-    size: "Curso",
-    title: 'Playas: Paraísos de Arena y Sol',
-    description: 'Vende destinos de playa irresistibles.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Ana Fernández',
-    agentContact: '(555) 555-4323',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 4,
-    image: '/viaje-3.png',
-    size: "Curso",
-    title: 'Grandes Ciudades: El Pulso Urbano',
-    description: 'Aprovecha el turismo en metrópolis.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Javier Martínez',
-    agentContact: '(555) 555-4324',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 5,
-    image: '/viaje-4.png',
-    size: "Curso",
-    title: 'Aventura: Adrenalina y Nuevos Horizontes',
-    description: 'Captura el mercado de turismo aventurero.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Lucía Rodríguez',
-    agentContact: '(555) 555-4325',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 6,
-    image: '/viaje-5.png',
-    size: "Curso",
-    title: 'Gastronomía: Sabores que Venden',
-    description: 'Promociona experiencias culinarias únicas.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Miguel Sánchez',
-    agentContact: '(555) 555-4326',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 7,
-    image: '/viaje-6.png',
-    size: "Curso",
-    title: 'Arqueología: Viajes al Pasado',
-    description: 'Ofrece rutas arqueológicas fascinantes.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Sofía Pérez',
-    agentContact: '(555) 555-4327',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 8,
-    image: '/viaje-7.png',
-    size: "Curso",
-    title: 'Religiosos: Peregrinaciones y Espiritualidad',
-    description: 'Explora nichos de turismo religioso.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'José Ramírez',
-    agentContact: '(555) 555-4328',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 9,
-    image: '/viaje-8.png',
-    size: "Curso",
-    title: 'Negocios: Viajes Corporativos Rentables',
-    description: 'Optimiza servicios para viajeros de negocios.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Laura Torres',
-    agentContact: '(555) 555-4329',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 10,
-    image: '/viaje-9.png',
-    size: "Curso",
-    title: 'Familia: Vacaciones para Todos',
-    description: 'Diseña experiencias familiares inolvidables.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Fernando Díaz',
-    agentContact: '(555) 555-4330',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 11,
-    image: '/viaje-10.png',
-    size: "Curso",
-    title: 'Ecológico: Turismo Sostenible',
-    description: 'Promueve destinos eco-amigables.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Isabel Morales',
-    agentContact: '(555) 555-4331',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 12,
-    image: '/viaje-11.png',
-    size: "Curso",
-    title: 'Románticos: Escapadas para Enamorados',
-    description: 'Crea paquetes románticos irresistibles.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Alejandro Castillo',
-    agentContact: '(555) 555-4332',
-    bgColor: 'bg-[#e4433c]'
-  },
-  {
-    id: 13,
-    image: '/viaje-12.png',
-    size: "Curso",
-    title: 'Meditación o Sanación: Retiros de Bienestar',
-    description: 'Ofrece experiencias de sanación y paz.',
-    address: '742 Evergreen Terrace',
-    age: 6,
-    bedrooms: 2,
-    bathrooms: 2,
-    agentPhoto: 'https://placehold.co/40',
-    agentName: 'Valentina Herrera',
-    agentContact: '(555) 555-4333',
-    bgColor: 'bg-[#e4433c]'
-  }
-]);
-</script>
