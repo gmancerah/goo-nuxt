@@ -55,7 +55,7 @@ if (searchQuery) {
 <template>
   <!-- Container -->
   <div class="flex flex-col-reverse lg:flex-row gap-6 max-w-7xl mx-auto mt-8">
-    
+
 
     <!-- Sidebar -->
     <aside class="w-full lg:w-1/4 hidden lg:block">
@@ -119,7 +119,7 @@ if (searchQuery) {
         
         <div v-for="item in result.hits" :key="item.id" class="property-card bg-white border rounded-lg p-4 shadow-sm">
           <div class="relative">
-             <img :src="item.image || 'https://placehold.co/466x262'" alt="Image for {{ item.title }}" />
+             <img :src="item.image || 'https://placehold.co/598x315'" alt="Image for {{ item.title }}" />
             <span class="absolute top-2 left-2 text-white px-2 py-1 rounded-lg text-xs">
               {{ item.content_type }} 
             </span>
