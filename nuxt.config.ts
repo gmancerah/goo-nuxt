@@ -5,7 +5,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vue-instantsearch', 'algoliasearch'],
   },
-  css: ['~/assets/css/tailwind.css'],
+  strapi: {
+    url: process.env.STRAPI_URL || 'http://localhost:1337',
+  prefix: '/api',
+  admin: '/admin',
+  version: 'v5',
+  cookie: {},
+  cookieName: 'strapi_jwt'
+  },
   devtools: { enabled: true },
   head: {
   link: [
@@ -19,7 +26,7 @@ export default defineNuxtConfig({
     },
   ],
 },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/algolia'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/algolia', '@nuxtjs/strapi', '@sidebase/nuxt-auth'],
    css: [
          '~/assets/css/tailwind.css', // Asegúrate de que la ruta sea correcta
        ],

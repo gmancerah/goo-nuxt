@@ -1,13 +1,13 @@
 <template>
 
 	<!-- <Search /> -->
-	<Cards />
-	
+	<!-- <Cards /> -->
+
 	
 	<VideosPopular />
 	<VideosViews />
-	<div class="container mx-auto">
-	<Cursos />
+	<div class="container mx-auto mt-10">
+	
 </div>
 </template>
 <script setup>

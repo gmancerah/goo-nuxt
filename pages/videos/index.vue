@@ -13,9 +13,7 @@
   ```
 -->
 <template>
-  <VideosRelated component-title="Videos Horizontal (16:9)" elements-url="/video2"/>
-
-  <VideosRelated component-title="Videos Vertical (3:4)" elements-url="/video"/>
+  <VideosViews />
    
 </template>
 
