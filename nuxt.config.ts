@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     },
   ],
 },
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/algolia', '@nuxtjs/strapi', '@sidebase/nuxt-auth'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/algolia', '@nuxtjs/strapi', ], //'@sidebase/nuxt-auth'
    css: [
          '~/assets/css/tailwind.css', // Asegúrate de que la ruta sea correcta
        ],
