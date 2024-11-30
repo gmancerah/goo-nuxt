@@ -16,7 +16,7 @@
         <div class="flex items-end p-6">
           <div>
             <h3 class="font-semibold text-white text-3xl">
-              <a :href="`/videos/${videos[0].id}`">
+              <a :href="`/videos/${videos[0].documentId}`">
                 <span class="absolute inset-0 " />
                 {{ videos[0].name }}
               </a>
@@ -32,7 +32,7 @@
         <div class="flex items-end p-6 sm:absolute sm:inset-0">
           <div>
             <h3 class="font-semibold text-white text-3xl">
-              <a :href="`/videos/${videos[1].id}`">
+              <a :href="`/videos/${videos[1].documentId}`">
                 <span class="absolute inset-0 " />
                 {{ videos[1].name }}
               </a>
@@ -48,7 +48,7 @@
         <div class="flex items-end p-6 sm:absolute sm:inset-0">
           <div>
             <h3 class="font-semibold text-white text-3xl">
-              <a :href="`/videos/${videos[2].id}`">
+              <a :href="`/videos/${videos[2].documentId}`">
                 <span class="absolute inset-0" />
                 {{ videos[2].name }}
               </a>

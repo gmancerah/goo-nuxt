@@ -15,7 +15,7 @@
           </a>
         </div>
         <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
-          <img :src="getThumbnailUrl(video)" :alt="video.name" class="object-cover object-center" />
+          <a :href="`/video/texto/${video.id}`"><img :src="getThumbnailUrl(video)" :alt="video.name" class="object-cover object-center" /></a>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@
       <iframe
         :src="dailymotionEmbedUrl"
         frameborder="0"
-        allow="autoplay; fullscreen"
+        allow=" fullscreen"
         allowfullscreen
         ref="dailymotionIframe"
         class="dailymotion-iframe"
@@ -28,11 +28,12 @@
       @ended="onVideoEnded"
       :class="['video-element', { 'portrait': isPortrait }]"
       preload="metadata"
+      :muted="autoplay || isMuted"
       :autoplay="autoplay"
-      :muted="autoplay || isMuted" 
       :loop="loop"
-      playsinline
+      
     >
+    <!-- :muted="autoplay || isMuted"  -->
       <source :src="videoSource" :type="videoType" />
       Your browser does not support the video tag.
     </video>
@@ -136,7 +137,8 @@ if (!props.dailymotionId) return ''
 
 const params = new URLSearchParams({
   autoplay: autoplay.value ? '1' : '0',
-  mute: (autoplay.value || isMuted.value) ? '1' : '0',
+  // mute: (autoplay.value || isMuted.value) ? '1' : '0',
+  mute: ( isMuted.value) ? '1' : '0',
   loop: loop.value ? '1' : '0',
   'queue-enable': '0',
   'sharing-enable': '0',
@@ -260,7 +262,7 @@ if (!shouldUseDailyMotion.value && videoRef.value) {
 
   if (autoplay.value) {
     videoRef.value.muted = true
-    isMuted.value = true
+    isMuted.value = false
     videoRef.value.play().catch(error => {
       console.warn('Initial autoplay failed:', error)
     })

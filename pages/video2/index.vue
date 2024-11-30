@@ -1,98 +1,40 @@
 <template>
-<div v-if="videoData">
-  <VideoBig :video="videoData.video_asset" />
-
-  <!-- Product details -->
-  <div class="mt-10">
-    <h2 class="text-sm font-medium text-gray-900">Descripción</h2>
-    <div class="prose prose-sm mt-4 text-gray-500" v-html="videoData.summary" />
-  </div>
-
-  <!-- Instructors section -->
-  <div class="mt-8 border-t border-gray-200 pt-8" v-if="videoData.instructors?.length">
-    <h2 class="text-sm font-medium text-gray-900">Instructores</h2>
-    <div class="prose prose-sm mt-4 text-gray-500">
-      <ul role="list">
-        <li v-for="instructor in videoData.instructors" :key="instructor.id">
-          {{ instructor.name }} - {{ instructor.title }}
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Downloads section -->
-  <div class="mt-8 border-t border-gray-200 pt-8" v-if="videoData.downloads?.length">
-    <h2 class="text-sm font-medium text-gray-900">Materiales de estudio</h2>
-    <div class="prose prose-sm mt-4 text-gray-500">
-      <ul role="list">
-        <li v-for="download in videoData.downloads" :key="download.id">
-          {{ download.name }}
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Navigation -->
-  <section aria-labelledby="policies-heading" class="mt-10">
-    <h2 id="policies-heading" class="sr-only">Navigation</h2>
-    <dl class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-      <div v-for="policy in policies" :key="policy.name" class="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center">
-        <dt>
-          <component :is="policy.icon" class="mx-auto h-6 w-6 flex-shrink-0 text-gray-400" aria-hidden="true" />
-          <span class="mt-4 text-sm font-medium text-gray-900">{{ policy.name }}</span>
-        </dt>
-        <dd class="mt-1 text-sm text-gray-500">{{ policy.description }}</dd>
+  <div class="bg-white p-4 rounded-lg shadow-lg flex-grow">
+        <div class="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-6">
+          <div class="w-full md:w-1/2 h-52 bg-gray-200 flex items-center justify-center rounded-lg">
+            <span class="text-lg font-bold text-gray-500">Video Player</span>
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-lg font-semibold">English for career development</h2>
+            <p class="text-sm text-gray-600 mb-4">
+              In this course, you will learn about the job search, application, and interview process...
+            </p>
+            <div class="text-sm text-gray-500">
+              <span>⭐ 4.2</span>
+              <span class="ml-4">Intermediate</span>
+              <span class="ml-4">12 lectures - 2 hours</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-md font-semibold mb-4">Course's content</h3>
+          <ul class="space-y-3">
+            <li class="p-3 bg-gray-50 rounded-lg flex items-center justify-between shadow-sm">
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                <div>
+                  <h4 class="text-sm font-semibold">Intro</h4>
+                  <p class="text-xs text-gray-500">Meet your teacher...</p>
+                </div>
+              </div>
+              <span class="text-sm text-gray-500">3:29 mins</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </dl>
-  </section>
-</div>
 </template>
-
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
-
-const router = useRouter()
-const route = useRoute()
-const videoData = ref(null)
-
-const policies = [
-{ name: 'Video anterior', icon: ArrowLeftIcon, description: "Bienvenida" },
-{ name: 'Siguiente Video', icon: ArrowRightIcon, description: 'Prepara tu venta' },
-]
-
-// Validate and fetch video data
-onMounted(async () => {
-const videoId = route.params.id
-
-if (!videoId) {
-  // Redirect to videos page if no ID is provided
-  // return router.push('/videos')
-}
-
-try {
-  // Fetch video data
-  const response = await fetch(`http://localhost:api/videos/${videoId}`)
-
-  if (!response.ok) {
-    throw new Error('Video not found')
-  }
-
-  const result = await response.json()
-  videoData.value = result.data
-} catch (error) {
-  console.error('Error fetching video:', error)
-  // Redirect to videos page if there's an error
-  // router.push('/videos')
-}
-})
-
-definePageMeta({
-layout: 'layout1',
-// Add validation for the ID parameter
-validate: async (route) => {
-  return !!route.params.id
-}
-})
+  definePageMeta({
+  layout: 'courses'
+});
 </script>
