@@ -7,21 +7,18 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.23",
     "@heroicons/vue": "^2.1.5",
-    "@logto/nuxt": "^1.0.1",
     "@nuxtjs/algolia": "^1.10.2",
-    "@nuxtjs/strapi": "^2.0.0",
-    "@sidebase/nuxt-auth": "^0.6.7",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
-    "next-auth": "~4.21.1",
     "nuxt": "^3.13.0",
-    "video.js": "^8.19.1",
+    "video.js": "^8.19.1",  
     "vue": "latest",
     "vue-router": "latest"
   },

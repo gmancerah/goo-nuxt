@@ -1,0 +1,7 @@
+services:
+  goo-nuxt-app:
+    build: .
+    container_name: my-nuxt-app
+    restart: unless-stopped
+    ports:
+      - 3021:3000
