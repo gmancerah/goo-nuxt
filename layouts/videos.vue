@@ -34,7 +34,8 @@
 
 
         </div>
-        <VideosRelated component-title="Te podria interesar" elements-url="/video"/>
+        <VideosViews title="Te podria interesar"/>
+      
       </div>
     </main>
   </div>
