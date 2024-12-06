@@ -3,9 +3,9 @@
 	<!-- <Search /> -->
 	<!-- <Cards /> -->
 
-	
-	<VideosPopular />
 	<VideosViews />
+	<CoursesViews title="Cursos más recientes"/>
+	
 	<div class="container mx-auto mt-10">
 	
 </div>

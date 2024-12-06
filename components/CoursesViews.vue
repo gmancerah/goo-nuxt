@@ -9,13 +9,13 @@
       <div class="mt-6 grid grid-cols-1 items-start gap-x-6 gap-y-10 sm:mt-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-8">  
         <div v-for="video in videos" :key="video.id" class="flex flex-col-reverse">  
           <div class="mt-2">  
-            <a :href="`/video/${$toSlug(video.name)}/${video.id}`">  
+            <a :href="`/curso/${$toSlug(video.name)}/${video.id}`">  
               <h3 class="text-xl font-medium text-gray-900">{{ video.name }}</h3>  
               <p class="text-xs text-gray-500">{{ video.summary }}</p>  
             </a>  
           </div>  
           <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">  
-            <a :href="`/video/${$toSlug(video.name)}/${video.id}`">  
+            <a :href="`/curso/${$toSlug(video.name)}/${video.id}`">  
               <img :src="getThumbnailUrl(video)" :alt="video.name" class="object-cover object-center" />  
             </a>  
           </div>  
@@ -33,7 +33,7 @@ import { defineProps } from 'vue';
 defineProps({  
   title: {  
     type: String,  
-    default: 'Últimos videos', // Default title  
+    default: 'Últimos cursos', // Default title  
   },  
 });  
 
@@ -44,7 +44,7 @@ const placeholderImage = 'https://via.placeholder.com/245x138.png?text=No+Image'
 
 const fetchVideos = async () => {  
   try {  
-    const response = await fetch('https://www.goouniversity.com/api/videos');  
+    const response = await fetch('https://www.goouniversity.com/api/courses');  
     const data = await response.json();  
     console.log('API Response:', data);  
 
@@ -54,6 +54,7 @@ const fetchVideos = async () => {
       summary: video.summary,  
       cover: video.cover,  
       DailyMotionThumbnail: video.DailyMotionThumbnail,  
+      Image: video.Image, // Include the Image array  
     }));  
   } catch (error) {  
     console.error('Error fetching videos:', error);  
@@ -70,6 +71,11 @@ const getThumbnailUrl = (video) => {
   // Then check if cover formats exist and has medium URL  
   if (video.cover?.formats?.medium?.url) {  
     return video.cover.formats.medium.url;  
+  }  
+
+  // Then check if the Image array exists and has a medium URL  
+  if (video.Image?.[0]?.formats?.medium?.url) {  
+    return video.Image[0].formats.medium.url;  
   }  
 
   // Finally check if cover formats exist and has small URL  
