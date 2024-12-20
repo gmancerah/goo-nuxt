@@ -108,64 +108,68 @@
     </div>  
     
 
-    <div v-if="showQuizModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="bg-white dark:bg-muted-950 rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
-    <!-- Close button moved to top right -->
-    <button
-      type="button"
-      class="absolute top-4 right-4 text-muted-400 hover:text-muted-600 transition-colors duration-300"
-      @click="closeQuizModal"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+    <div v-if="showQuizModal" class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black bg-opacity-50">
+  <div class="relative w-full max-w-2xl min-h-screen md:min-h-0 md:my-8 mx-auto">
+    <div class="relative bg-white dark:bg-muted-950 rounded-lg shadow-lg p-6">
+      <!-- Close button positioned absolutely in top right corner -->
+      <button
+        type="button"
+        class="absolute top-4 right-4 text-muted-400 hover:text-muted-600 transition-colors duration-300"
+        @click="closeQuizModal"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-    <h2 class="text-lg font-semibold text-muted-800 dark:text-muted-100 mb-4">{{ currentQuiz.name }}</h2>
-    <p class="text-sm text-muted-500 dark:text-muted-400 mb-6">{{ currentQuiz.summary }}</p>
-    
-    <ul class="space-y-4">
-      <li v-for="question in currentQuiz.quiz_questions" :key="question.id">
-        <p class="font-medium text-muted-800 dark:text-muted-100">{{ question.question }}</p>
-        <ul class="mt-2 space-y-2">
-          <li
-            v-for="answer in question.quiz_question_answers"
-            :key="answer.id"
-            class="flex items-center gap-2"
-          >
-            <input
-              type="radio"
-              :name="'question-' + question.id"
-              :value="answer.id"
-              v-model="userAnswers[question.id]"
-              class="form-radio text-primary-500"
-            />
-            <label class="text-sm text-muted-800 dark:text-muted-400">{{ answer.answer }}</label>
+      <!-- Add padding-top to content to account for absolute positioned close button -->
+      <div class="pt-8">
+        <h2 class="text-lg font-semibold text-muted-800 dark:text-muted-100 mb-4">{{ currentQuiz.name }}</h2>
+        <p class="text-sm text-muted-500 dark:text-muted-400 mb-6">{{ currentQuiz.summary }}</p>
+        
+        <ul class="space-y-4">
+          <li v-for="question in currentQuiz.quiz_questions" :key="question.id">
+            <p class="font-medium text-muted-800 dark:text-muted-100">{{ question.question }}</p>
+            <ul class="mt-2 space-y-2">
+              <li
+                v-for="answer in question.quiz_question_answers"
+                :key="answer.id"
+                class="flex items-center gap-2"
+              >
+                <input
+                  type="radio"
+                  :name="'question-' + question.id"
+                  :value="answer.id"
+                  v-model="userAnswers[question.id]"
+                  class="form-radio text-primary-500"
+                />
+                <label class="text-sm text-muted-800 dark:text-muted-400">{{ answer.answer }}</label>
+              </li>
+            </ul>
           </li>
         </ul>
-      </li>
-    </ul>
 
-    <!-- Results message -->
-    <div v-if="showResults" class="mt-4 p-4 rounded-lg" :class="isQuizPassed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
-      <p class="text-center font-medium">
-        {{ isQuizPassed ? 'Felicidades aprobaste el modulo' : 'Necesitas repasar el modulo' }}
-      </p>
-      <p class="text-center text-sm mt-2">
-        Respuestas correctas: {{ correctAnswers }} de {{ totalQuestions }}
-      </p>
-    </div>
+        <!-- Results message -->
+        <div v-if="showResults" class="mt-4 p-4 rounded-lg" :class="isQuizPassed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
+          <p class="text-center font-medium">
+            {{ isQuizPassed ? 'Felicidades aprobaste el modulo' : 'Necesitas repasar el modulo' }}
+          </p>
+          <p class="text-center text-sm mt-2">
+            Respuestas correctas: {{ correctAnswers }} de {{ totalQuestions }}
+          </p>
+        </div>
 
-    <div class="mt-6 flex justify-end gap-4">
-      <button
-        v-if="!showResults"
-        type="button"
-        class="py-2 px-4 text-sm font-semibold text-white bg-gray-500 rounded-lg hover:bg-primary-600 transition-colors duration-300"
-        @click="checkAnswers"
-      >
-        Verificar Respuestas
-      </button>
-     
+        <div class="mt-6 flex justify-end gap-4">
+          <button
+            v-if="!showResults"
+            type="button"
+            class="py-2 px-4 text-sm font-semibold text-white bg-gray-500 rounded-lg hover:bg-primary-600 transition-colors duration-300"
+            @click="checkAnswers"
+          >
+            Verificar Respuestas
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
