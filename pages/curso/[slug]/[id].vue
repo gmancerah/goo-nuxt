@@ -21,12 +21,12 @@
                 :title="currentVideo?.name"  
                 :courseName="course?.name"  
                 :coverImage="course?.coverImage || 'https://example.com/cover-image.jpg'"  
-                :videoId="currentVideo?.id"  
+                :videoId="currentVideo?.documentId"  
                 :url="`/curso/${courseSlug}/${courseId}`"  
               />  
 
 
-              
+              <CoursesList />
             </div>  
           </div>  
 
@@ -66,6 +66,9 @@ const router = useRouter()
 
 // Fetch course data on mount  
 onMounted(async () => {  
+
+
+
   const courseId = route.params.id  
   const courseSlug = route.params.slug  
 
@@ -103,4 +106,8 @@ function updateCurrentVideo({ video, module }) {
   currentVideo.value = video  
   currentModule.value = module  
 }  
-</script>  
+
+
+
+
+</script> 

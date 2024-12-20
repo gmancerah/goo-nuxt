@@ -39,7 +39,7 @@
       <div class="tooltip-wrapper">
         <div class="tooltip-children">
           <button
-            class="cursor-pointer relative inline-flex items-center justify-center gap-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 rounded-lg h-10 w-10 [&>span>.loader]:text-muted-500 dark:[&>span>.loader]:text-muted-200 bg-white hover:enabled:bg-muted-50 active:enabled:bg-muted-100 hover:enabled:border-muted-300 dark:hover:enabled:border-muted-700 border border-muted-200 dark:border-muted-800 text-muted-800 dark:text-muted-100 dark:bg-muted-950 dark:hover:enabled:bg-muted-900 dark:active:enabled:bg-muted-950 shrink-0"
+            class="share-element cursor-pointer relative inline-flex items-center justify-center gap-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 rounded-lg h-10 w-10 [&>span>.loader]:text-muted-500 dark:[&>span>.loader]:text-muted-200 bg-white hover:enabled:bg-muted-50 active:enabled:bg-muted-100 hover:enabled:border-muted-300 dark:hover:enabled:border-muted-700 border border-muted-200 dark:border-muted-800 text-muted-800 dark:text-muted-100 dark:bg-muted-950 dark:hover:enabled:bg-muted-900 dark:active:enabled:bg-muted-950 shrink-0"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@
       </div>
 
       <!-- Tooltip Button 3 -->
-      <div class="tooltip-wrapper">
+      <!-- <div class="tooltip-wrapper">
         <div class="tooltip-children">
           <button
             class="cursor-pointer relative inline-flex items-center justify-center gap-1 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 rounded-lg h-10 w-10 [&>span>.loader]:text-muted-500 dark:[&>span>.loader]:text-muted-200 bg-white hover:enabled:bg-muted-50 active:enabled:bg-muted-100 hover:enabled:border-muted-300 dark:hover:enabled:border-muted-700 border border-muted-200 dark:border-muted-800 text-muted-800 dark:text-muted-100 dark:bg-muted-950 dark:hover:enabled:bg-muted-900 dark:active:enabled:bg-muted-950 shrink-0"
@@ -85,7 +85,7 @@
             </svg>
           </button>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -127,10 +127,32 @@ export default {
         videoId: this.videoId,
       };
       localStorage.setItem("courseData", JSON.stringify(data));
-      alert("Data saved to local storage!");
+      alert("Video guardado en tus favoritos");
     },
   },
 };
+
+onMounted(async () => {  
+
+const shares = document.getElementsByClassName('share-element');
+if (shares.length > 0) {
+  Array.from(shares).forEach(share => {
+    if (navigator.share) {
+      share.addEventListener("click", () => {
+        navigator.share({
+          url: window.location.href,
+          title: document.title,
+          text: "Tienes que ver esto: "
+        });
+      });
+    } else {
+      // Share not compatible
+      share.classList.add("hidden");
+    }
+  });
+}
+
+})  
 </script>
 
 <style scoped>
