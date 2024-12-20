@@ -24,7 +24,7 @@
   -->
   <div  v-if="videoData">
   
-{{videoData.video_asset}}
+
 
   <VideoBig 
   :videoSource="videoData?.video_asset?.url || ''" 

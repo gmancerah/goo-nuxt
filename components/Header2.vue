@@ -50,7 +50,7 @@
 
         <a href="/cursos" class="text-sm font-semibold leading-6 text-gray-900">Cursos</a>
         <a href="/videos" class="text-sm font-semibold leading-6 text-gray-900">Videos</a>
-        <a href="/envivo" class="text-sm font-semibold leading-6 text-gray-900">En vivo</a>
+        <!-- <a href="/envivo" class="text-sm font-semibold leading-6 text-gray-900">En vivo</a> -->
       </PopoverGroup>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
         <a href="/login" class="text-sm font-semibold leading-6 text-gray-900">Iniciar sesión <span aria-hidden="true">&rarr;</span></a>
@@ -83,7 +83,7 @@
               </Disclosure>
               <a href="/capacitaciones" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Capacitación</a>
               <a href="/videos" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">Videos</a>
-              <a href="/envivo" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">En Vivo</a>
+              <!-- <a href="/envivo" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">En Vivo</a> -->
               
             </div>
             <div class="py-6">
