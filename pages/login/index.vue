@@ -36,6 +36,12 @@
 
         <div class="mt-10">
           <div>
+            <button
+              @click="handleLogin"
+              class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Iniciar sesión con Auth0
+            </button>
             <form action="#" method="POST" class="space-y-6">
               <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Correo electrónico</label>
@@ -112,3 +118,19 @@
     </div>
   </div>
 </template>
+
+
+<script setup>
+const { login, isAuthenticated, user } = useAuth();
+
+// Watch for authentication state
+watch(isAuthenticated, (newValue) => {
+  if (newValue) {
+    navigateTo('/dashboard');
+  }
+});
+
+const handleLogin = async () => {
+  await login();
+};
+</script>

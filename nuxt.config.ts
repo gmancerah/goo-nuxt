@@ -5,6 +5,14 @@ export default defineNuxtConfig({
   build: {
     transpile: ['vue-instantsearch', 'algoliasearch'],
   },
+  runtimeConfig: {
+    public: {
+      auth0: {
+        domain: process.env.AUTH0_DOMAIN,
+        clientId: process.env.AUTH0_CLIENT_ID
+      }
+    }
+  },
   devtools: { enabled: true },
   head: {
   link: [
